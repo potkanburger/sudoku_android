@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 public class SquareEditText extends EditText {
@@ -33,13 +35,14 @@ public class SquareEditText extends EditText {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int taille = Math.max(widthMeasureSpec, heightMeasureSpec);
-        super.onMeasure(taille, taille);
-        /*DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        int size_screen_width = Math.round(displayMetrics.widthPixels / displayMetrics.density);
-        int size_screen_height = Math.round(displayMetrics.heightPixels/ displayMetrics.density);
-        int taille = (int)(Math.min(size_screen_height, size_screen_width)*0.9);
-        taille = taille/9;
-        setMeasuredDimension(convertDpToPx(40), convertDpToPx(40));*/
+        int widthPixels = EditText.MeasureSpec.getSize(widthMeasureSpec);
+        int heightPixels = EditText.MeasureSpec.getSize(heightMeasureSpec);
+        //int widthMode = EditText.MeasureSpec.getMode(widthMeasureSpec);
+        //int heightMode = EditText.MeasureSpec.getMode(heightMeasureSpec);
+        int taille = Math.max(widthPixels, heightPixels);
+        Log.d("taille_item", Integer.toString(taille));
+        int myWidthMeasureSpec = EditText.MeasureSpec.makeMeasureSpec(taille, MeasureSpec.EXACTLY);
+        int myHeightMeasureSpec = EditText.MeasureSpec.makeMeasureSpec(taille, MeasureSpec.EXACTLY);
+        super.onMeasure(myWidthMeasureSpec, myHeightMeasureSpec);
     }
 }

@@ -26,6 +26,7 @@ public class Sudoku extends Activity {
         for(int i=1;i<=81;i++){
             arrayAdapter.add(String.valueOf(i));
         }
+
         grille.setAdapter(arrayAdapter);
     }
 }

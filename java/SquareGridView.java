@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.GridView;
 
 public class SquareGridView extends GridView{
@@ -34,12 +35,18 @@ public class SquareGridView extends GridView{
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int taille_min = Math.min(widthMeasureSpec, heightMeasureSpec);
-        super.onMeasure(taille_min, taille_min);
-/*        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        int size_screen_width = Math.round(displayMetrics.widthPixels / displayMetrics.density);
-        int size_screen_height = Math.round(displayMetrics.heightPixels/ displayMetrics.density);
-        int taille = (int)(Math.min(size_screen_height, size_screen_width)*0.9);
-        setMeasuredDimension(convertDpToPx(taille),convertDpToPx(taille));*/
+        int widthPixels = GridView.MeasureSpec.getSize(widthMeasureSpec);
+        int heightPixels = GridView.MeasureSpec.getSize(heightMeasureSpec);
+        int widthMode = GridView.MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = GridView.MeasureSpec.getMode(heightMeasureSpec);
+        int taille = Math.min(widthPixels, heightPixels);
+        int taille_voulue = taille-10;
+        if(taille_voulue%9!=0){
+            taille_voulue = taille_voulue-(taille_voulue%9);
+        }
+        taille_voulue = taille_voulue + 10;
+        int myWidthMeasureSpec = GridView.MeasureSpec.makeMeasureSpec(taille_voulue, widthMode);
+        int myHeightMeasureSpec = GridView.MeasureSpec.makeMeasureSpec(taille_voulue, heightMode);
+        super.onMeasure(myWidthMeasureSpec, myHeightMeasureSpec);
     }
 }
