@@ -40,11 +40,9 @@ public class SquareGridView extends GridView{
         int widthMode = GridView.MeasureSpec.getMode(widthMeasureSpec);
         int heightMode = GridView.MeasureSpec.getMode(heightMeasureSpec);
         int taille = Math.min(widthPixels, heightPixels);
-        int taille_voulue = taille-10;
-        if(taille_voulue%9!=0){
-            taille_voulue = taille_voulue-(taille_voulue%9);
-        }
-        taille_voulue = taille_voulue + 10;
+        int taille_voulue = taille-convertDpToPx(20);
+        taille_voulue = taille_voulue%9!=0 ? taille_voulue : taille_voulue-(taille_voulue%9);
+        taille_voulue = taille_voulue + convertDpToPx(20);
         int myWidthMeasureSpec = GridView.MeasureSpec.makeMeasureSpec(taille_voulue, widthMode);
         int myHeightMeasureSpec = GridView.MeasureSpec.makeMeasureSpec(taille_voulue, heightMode);
         super.onMeasure(myWidthMeasureSpec, myHeightMeasureSpec);

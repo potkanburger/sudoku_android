@@ -37,10 +37,7 @@ public class SquareEditText extends EditText {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthPixels = EditText.MeasureSpec.getSize(widthMeasureSpec);
         int heightPixels = EditText.MeasureSpec.getSize(heightMeasureSpec);
-        //int widthMode = EditText.MeasureSpec.getMode(widthMeasureSpec);
-        //int heightMode = EditText.MeasureSpec.getMode(heightMeasureSpec);
         int taille = Math.max(widthPixels, heightPixels);
-        Log.d("taille_item", Integer.toString(taille));
         int myWidthMeasureSpec = EditText.MeasureSpec.makeMeasureSpec(taille, MeasureSpec.EXACTLY);
         int myHeightMeasureSpec = EditText.MeasureSpec.makeMeasureSpec(taille, MeasureSpec.EXACTLY);
         super.onMeasure(myWidthMeasureSpec, myHeightMeasureSpec);
