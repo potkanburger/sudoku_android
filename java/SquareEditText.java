@@ -27,11 +27,6 @@ public class SquareEditText extends EditText {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    int convertDpToPx(int value){
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        int res = Math.round(value*(displayMetrics.xdpi/DisplayMetrics.DENSITY_DEFAULT));
-        return res;
-    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

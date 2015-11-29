@@ -30,7 +30,7 @@ public class SquareGridView extends GridView{
 
     int convertDpToPx(int value){
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        int res = Math.round(value*(displayMetrics.xdpi/DisplayMetrics.DENSITY_DEFAULT));
+        int res = Math.round(value*(displayMetrics.densityDpi /160.0f));
         return res;
     }
     @Override
