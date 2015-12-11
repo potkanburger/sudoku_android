@@ -18,5 +18,14 @@
             android:id="@+id/grile"
             ></com.potkanburger.sudoku_durif_genoux_hu.SquareGridView>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/generer"
+            android:text="@string/generer"
+            android:layout_below="@id/grile"
+            />
+
+
 
 </RelativeLayout>

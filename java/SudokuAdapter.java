@@ -1,6 +1,7 @@
 package com.potkanburger.sudoku_durif_genoux_hu;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -9,14 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 
 public class SudokuAdapter extends ArrayAdapter {
 
     private SudokuGrid sudoGrid;
+    private Collection<Sudoku.Coord> conflictAll;
 
     public SudokuAdapter(Context context, int resource, SudokuGrid sudokuGrid){
         super(context, resource, sudokuGrid.toList());
         this.sudoGrid = sudokuGrid;
+        this.conflictAll = Sudoku.checkGrid(sudokuGrid);
     }
 
     @Override
@@ -26,6 +32,7 @@ public class SudokuAdapter extends ArrayAdapter {
         }
         final SquareEditText squareEditText = (SquareEditText) convertView.findViewById(R.id.item_sudoku);
         squareEditText.setText(sudoGrid.toList().get(position).toString());
+
         squareEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -33,15 +40,43 @@ public class SudokuAdapter extends ArrayAdapter {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("Coordonnee case: ", String.valueOf(position));
-                Log.d("Valeur case: ", squareEditText.getText().toString());
+                Log.d("Coordonnee case: ", "" + SudokuGrid.getRow(position) + " - " + SudokuGrid.getCell(position));
+                sudoGrid.set(SudokuGrid.getRow(position), SudokuGrid.getCell(position), Element.from(squareEditText.getText().toString()));
+                Collection<Sudoku.Coord> conflict = Sudoku.checkValue(sudoGrid, SudokuGrid.getRow(position), SudokuGrid.getCell(position));
+                if (!conflict.isEmpty()) {
+                    squareEditText.setBackgroundColor(Color.RED);
+                } else {
+                    squareEditText.setBackgroundColor(Color.WHITE);
+                }
+                if(position!=0){updateAdapter();}
+
             }
         });
+        boolean contains = false;
+        Iterator<Sudoku.Coord> it = conflictAll.iterator();
+        while(it.hasNext()){
+            Sudoku.Coord tmp = it.next();
+            if(tmp.row*9+tmp.cell==position){
+                contains = true;
+                break;
+            }
+        }
+        if(contains){
+            squareEditText.setBackgroundColor(Color.RED);
+        }
+        else {
+            squareEditText.setBackgroundColor(Color.WHITE);
+        }
         return squareEditText;
     }
+
+    public void updateAdapter(){
+        this.conflictAll = Sudoku.checkGrid(sudoGrid);
+        this.notifyDataSetChanged();
+    }
+
 }
